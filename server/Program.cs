@@ -1,5 +1,6 @@
 using Server.Data;
 using Microsoft.EntityFrameworkCore;
+using Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IPackageService, PackageService>();
 
 var app = builder.Build();
 
