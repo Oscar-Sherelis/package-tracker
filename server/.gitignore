@@ -1,0 +1,160 @@
+# Server-specific .gitignore for .NET project
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+out/
+publish/
+*.exe
+*.dll
+*.pdb
+*.xml
+
+# .NET Core
+.project
+.cache/
+*.nupkg
+*.nuspec
+packages/
+
+# Logs
+logs/
+*.log
+[Nn]Log*
+*.eslintcache
+
+# Runtime data
+*.runtimeconfig.json
+
+# User-specific files
+*.user
+*.userprefs
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Environment files
+.env
+.env.*
+!.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Azure Functions
+.local.settings.json
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NuGet
+NuGet.exe
+.nuget/
+.nuget.packages/
+
+# Visual Studio
+.vs/
+*.aps
+*.cache
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# Visual Studio Code
+.history/
+
+# Rider
+.idea/
+*.sln.iml
+
+# ReSharper
+*.ReSharper
+*.ReSharper*
+
+# Azure
+.azure/
+
+# Performance logs
+*.diagsession
+
+# Backup folder
+_Backup*/
+
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
+
+# Local development settings
+appsettings.Development.json
+appsettings.Local.json
+!appsettings.json
+!appsettings.*.example
+
+# Coverage reports
+coverage/
+coverage.xml
+*.coverage
+*.cover
+
+# Temp files
+temp/
+tmp/
+
+# Package directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotnet watch
+.hotReload/
