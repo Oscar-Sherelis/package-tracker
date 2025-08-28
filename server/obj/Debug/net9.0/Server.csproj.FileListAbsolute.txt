@@ -165,3 +165,5 @@ C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\obj\Debug\net9.0
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\obj\Debug\net9.0\Server.pdb
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\obj\Debug\net9.0\Server.genruntimeconfig.cache
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\obj\Debug\net9.0\ref\Server.dll
+C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\DotNetEnv.dll
+C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Sprache.dll
