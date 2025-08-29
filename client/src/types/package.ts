@@ -13,16 +13,36 @@ export interface StatusHistory {
   timestamp: string;
 }
 
-export interface Package {
+export interface PackageListItem {
   id: string;
   trackingNumber: string;
+  senderName: string;
+  recipientName: string;
+  status: PackageStatus;
+  currentStatus: PackageStatus;
+  createdAt: string;
+}
+
+export interface StatusHistoryItem {
+  status: PackageStatus;
+  timestamp: string;
+}
+
+export interface PackageDetails extends Omit<PackageListItem, "currentStatus"> {
+  currentStatus: PackageStatus;
+  senderAddress: string;
+  senderPhone: string;
+  recipientAddress: string;
+  recipientPhone: string;
+  statusHistory: StatusHistoryItem[];
+  allowedTransitions: PackageStatus[];
+}
+
+export interface CreatePackageInput {
   senderName: string;
   senderAddress: string;
   senderPhone: string;
   recipientName: string;
   recipientAddress: string;
   recipientPhone: string;
-  status: PackageStatus;
-  createdAt: string;
-  history: StatusHistory[];
 }
