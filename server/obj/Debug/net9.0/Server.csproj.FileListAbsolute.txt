@@ -1,4 +1,6 @@
+C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\appsettings.Development.example.json
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\appsettings.json
+C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Services\appsettings.Development.json
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Server.staticwebassets.endpoints.json
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Server.exe
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Server.deps.json
@@ -7,6 +9,7 @@ C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Server.pdb
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Azure.Core.dll
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Azure.Identity.dll
+C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\DotNetEnv.dll
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Humanizer.dll
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
@@ -46,6 +49,7 @@ C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Mono.TextTemplating.dll
+C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Sprache.dll
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -164,7 +168,3 @@ C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\obj\Debug\net9.0
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\obj\Debug\net9.0\Server.pdb
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\obj\Debug\net9.0\Server.genruntimeconfig.cache
 C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\obj\Debug\net9.0\ref\Server.dll
-C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\DotNetEnv.dll
-C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Sprache.dll
-C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\appsettings.Development.example.json
-C:\Users\Oscar\Desktop\personal-projects\package-tracker\server\bin\Debug\net9.0\Services\appsettings.Development.json

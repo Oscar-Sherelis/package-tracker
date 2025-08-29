@@ -7,30 +7,49 @@ import {
   PackageStatus,
 } from "../types/package";
 
-// API functions (reusable)
 export async function listPackages(params?: {
   status?: PackageStatus;
   tracking?: string;
 }) {
-  const res = await api.get<PackageListItem[]>("/package", { params });
-  return res.data;
+  try {
+    const res = await api.get<PackageListItem[]>("/package", { params });
+    return res.data ?? [];
+  } catch (error) {
+    console.error("API error (listPackages):", error);
+    throw new Error("Unable to load packages. Please try again.");
+  }
 }
 
 export async function getPackage(id: string) {
-  const res = await api.get<PackageDetails>(`/package/${id}`);
-  return res.data;
+  try {
+    const res = await api.get<PackageDetails>(`/package/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error(`Failed to fetch package ${id}:`, error);
+    throw new Error("Package not found or unable to load details.");
+  }
 }
 
 export async function createPackage(payload: CreatePackageInput) {
-  const res = await api.post<PackageDetails>("/package", payload);
-  return res.data;
+  try {
+    const res = await api.post<PackageDetails>("/package", payload);
+    return res.data;
+  } catch (error) {
+    console.error("Failed to create package:", error);
+    throw new Error("Failed to create package. Please check your input.");
+  }
 }
 
 export async function changeStatus(id: string, newStatus: PackageStatus) {
-  const res = await api.post<PackageDetails>(`/package/${id}/status`, {
-    newStatus,
-  });
-  return res.data;
+  try {
+    const res = await api.put<PackageDetails>(`/package/${id}/status`, {
+      newStatus,
+    });
+    return res.data;
+  } catch (error) {
+    console.error(`Failed to update status for package ${id}:`, error);
+    throw new Error("Failed to update package status.");
+  }
 }
 
 // React Query hooks
@@ -54,8 +73,14 @@ export const useCreatePackage = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createPackage,
-    onSuccess: () => {
+    onSuccess: (newPackage) => {
       queryClient.invalidateQueries({ queryKey: ["packages"] });
+
+      // Pre-set the new package data to avoid refetch
+      queryClient.setQueryData(["package", newPackage.id], newPackage);
+    },
+    onError: (error: Error) => {
+      console.error("Create package error:", error.message);
     },
   });
 };
@@ -67,6 +92,13 @@ export const useUpdateStatus = () => {
       changeStatus(id, newStatus),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["packages"] });
+    },
+
+    onError: (error: Error, variables) => {
+      console.error(
+        `Status update failed for package ${variables.id}:`,
+        error.message
+      );
     },
   });
 };

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Server.Data;
 using Server.Models;
 using Server.Models.Enums;
+using Server.DTO;
 
 namespace Server.Services
 {
@@ -14,22 +15,26 @@ namespace Server.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Package>> GetAllAsync()
+        public async Task<IEnumerable<PackageDto>> GetAllAsync()
         {
-            return await _context.Packages
-                .Include(p => p.History)
+            var packages = await _context.Packages
+                .Include(p => p.StatusHistory)
                 .AsNoTracking()
                 .ToListAsync();
+
+            return packages.Select(MapToDto).ToList();
         }
 
-        public async Task<Package?> GetByIdAsync(Guid id)
+        public async Task<PackageDto?> GetByIdAsync(Guid id)
         {
-            return await _context.Packages
-                .Include(p => p.History)
+            var package = await _context.Packages
+                .Include(p => p.StatusHistory)
                 .FirstOrDefaultAsync(p => p.Id == id);
+
+            return package != null ? MapToDto(package) : null;
         }
 
-        public async Task<Package> CreateAsync(Package package)
+        public async Task<PackageDto> CreateAsync(Package package)
         {
             // Generate tracking number
             package.TrackingNumber = $"TRK{DateTime.UtcNow.Ticks % 1_000_000_000:D9}";
@@ -39,23 +44,24 @@ namespace Server.Services
             package.CreatedAt = DateTime.UtcNow;
 
             // Add initial status history
-            package.History.Add(new StatusHistory
+            package.StatusHistory.Add(new StatusHistory
             {
                 PackageId = package.Id,
                 Status = PackageStatus.Created,
-                ChangedAt = DateTime.UtcNow
+                ChangedAt = DateTime.UtcNow,
+                Description = "Package created"
             });
 
             _context.Packages.Add(package);
             await _context.SaveChangesAsync();
 
-            return package;
+            return MapToDto(package);
         }
 
-        public async Task<Package?> UpdateStatusAsync(Guid id, PackageStatus newStatus)
+        public async Task<PackageDto?> UpdateStatusAsync(Guid id, PackageStatus newStatus)
         {
             var package = await _context.Packages
-                .Include(p => p.History)
+                .Include(p => p.StatusHistory)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (package == null)
@@ -66,15 +72,16 @@ namespace Server.Services
 
             package.Status = newStatus;
 
-            package.History.Add(new StatusHistory
+            package.StatusHistory.Add(new StatusHistory
             {
                 PackageId = package.Id,
                 Status = newStatus,
-                ChangedAt = DateTime.UtcNow
+                ChangedAt = DateTime.UtcNow,
+                Description = $"Status changed to {newStatus}"
             });
 
             await _context.SaveChangesAsync();
-            return package;
+            return MapToDto(package);
         }
 
         private bool IsValidTransition(PackageStatus current, PackageStatus next)
@@ -87,6 +94,30 @@ namespace Server.Services
                 PackageStatus.Accepted => false, // final
                 PackageStatus.Canceled => false, // final
                 _ => false
+            };
+        }
+
+        private PackageDto MapToDto(Package package)
+        {
+            return new PackageDto
+            {
+                Id = package.Id,
+                TrackingNumber = package.TrackingNumber,
+                SenderName = package.SenderName,
+                SenderAddress = package.SenderAddress,
+                SenderPhone = package.SenderPhone,
+                RecipientName = package.RecipientName,
+                RecipientAddress = package.RecipientAddress,
+                RecipientPhone = package.RecipientPhone,
+                Status = package.Status,
+                CreatedAt = package.CreatedAt,
+                StatusHistory = package.StatusHistory?.Select(h => new StatusHistoryDto
+                {
+                    Id = h.Id,
+                    Status = h.Status,
+                    ChangedAt = h.ChangedAt,
+                    Description = h.Description
+                }).ToList() ?? new List<StatusHistoryDto>()
             };
         }
     }

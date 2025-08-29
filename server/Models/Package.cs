@@ -36,6 +36,6 @@ namespace Server.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation property
-        public ICollection<StatusHistory> History { get; set; } = new List<StatusHistory>();
+        public ICollection<StatusHistory> StatusHistory { get; set; } = new List<StatusHistory>();
     }
 }

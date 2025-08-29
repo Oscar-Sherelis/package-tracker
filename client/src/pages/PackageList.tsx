@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { usePackages, useUpdateStatus } from "../api/packages";
-import { PackageStatus, PackageListItem  } from "../types/package";
+import { PackageStatus, PackageListItem} from "../types/package";
 
-// Define status colors with type safety - use PackageStatus enum
 const statusColors: Record<PackageStatus, string> = {
   [PackageStatus.Created]: "bg-gray-300 text-gray-800",
   [PackageStatus.Sent]: "bg-blue-300 text-blue-900",
@@ -17,13 +16,17 @@ export default function PackageList() {
   const [filter, setFilter] = useState<string>("");
 
   if (isLoading) return <p className="p-4">Loading...</p>;
-  if (error) return <p className="p-4 text-red-500">Error loading packages</p>;
+  if (error)
+    return <p className="p-4 text-red-500">Error loading packages error</p>;
 
-  const filtered = packages?.filter(
-    (pkg: PackageListItem) =>
-      pkg.trackingNumber.toLowerCase().includes(filter.toLowerCase()) ||
-      pkg.status.toLowerCase().includes(filter.toLowerCase())
-  );
+  const filtered =
+    packages?.filter(
+      (pkg: PackageListItem) =>
+        pkg.trackingNumber.toLowerCase().includes(filter.toLowerCase()) ||
+        PackageStatus[pkg.status]
+          .toLowerCase()
+          .includes(filter.toLowerCase())
+    ) ?? [];
 
   return (
     <div className="p-6">
@@ -36,11 +39,6 @@ export default function PackageList() {
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
       />
-      <p className="text-center text-gray-500 py-8">
-        {filter
-          ? "No packages match your filter"
-          : "Currently there are no packages"}
-      </p>
 
       <div className="grid gap-4">
         {filtered?.map((pkg) => (

@@ -1,17 +1,26 @@
 export enum PackageStatus {
-  Created = "Created",
-  Sent = "Sent",
-  Accepted = "Accepted",
-  Returned = "Returned",
-  Canceled = "Canceled",
+  Created = 0,
+  Sent = 1,
+  Accepted = 2,
+  Returned = 3,
+  Canceled = 4,
 }
 
-export interface StatusHistory {
+export const PackageStatusLabel: Record<PackageStatus, string> = {
+  [PackageStatus.Created]: "Created",
+  [PackageStatus.Sent]: "Sent",
+  [PackageStatus.Accepted]: "Accepted",
+  [PackageStatus.Returned]: "Returned",
+  [PackageStatus.Canceled]: "Canceled",
+};
+
+export type StatusHistory = {
   id: string;
   packageId: string;
   status: PackageStatus;
-  timestamp: string;
-}
+  changedAt: string;
+  description?: string;
+};
 
 export interface PackageListItem {
   id: string;
@@ -19,22 +28,22 @@ export interface PackageListItem {
   senderName: string;
   recipientName: string;
   status: PackageStatus;
-  currentStatus: PackageStatus;
   createdAt: string;
 }
 
-export interface StatusHistoryItem {
+export interface StatusItem {
   status: PackageStatus;
   timestamp: string;
 }
 
-export interface PackageDetails extends Omit<PackageListItem, "currentStatus"> {
-  currentStatus: PackageStatus;
+export interface PackageDetails extends Omit<PackageListItem, "status"> {
+  status: PackageStatus;
   senderAddress: string;
   senderPhone: string;
   recipientAddress: string;
   recipientPhone: string;
-  statusHistory: StatusHistoryItem[];
+  statusHistory: StatusItem[];
+  createdAt: string;
   allowedTransitions: PackageStatus[];
 }
 
