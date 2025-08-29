@@ -60,7 +60,7 @@ export default function PackageList() {
               </span>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 ml-4">
               {[
                 PackageStatus.Created,
                 PackageStatus.Sent,
