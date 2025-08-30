@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { usePackages, useUpdateStatus } from "../api/packages";
-import { PackageStatus, PackageListItem} from "../types/package";
+import { PackageStatus, PackageListItem, PackageStatusLabel } from "../types/package";
+import CreatePackageDialog from "../components/packages/CreatePackageDialog";
 
 const statusColors: Record<PackageStatus, string> = {
   [PackageStatus.Created]: "bg-gray-300 text-gray-800",
@@ -11,13 +12,14 @@ const statusColors: Record<PackageStatus, string> = {
 };
 
 export default function PackageList() {
-  const { data: packages, isLoading, error } = usePackages();
+  const { data: packages, isLoading, error, refetch } = usePackages();
   const updateStatusMutation = useUpdateStatus();
   const [filter, setFilter] = useState<string>("");
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
   if (isLoading) return <p className="p-4">Loading...</p>;
   if (error)
-    return <p className="p-4 text-red-500">Error loading packages error</p>;
+    return <p className="p-4 text-red-500">Error loading packages</p>;
 
   const filtered =
     packages?.filter(
@@ -30,7 +32,15 @@ export default function PackageList() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">📦 Packages</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">📦 Packages</h1>
+        <button
+          onClick={() => setIsCreateDialogOpen(true)}
+          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+        >
+          + Create Package
+        </button>
+      </div>
 
       <input
         type="text"
@@ -52,11 +62,11 @@ export default function PackageList() {
                 {pkg.senderName} → {pkg.recipientName}
               </p>
               <span
-                className={`px-2 py-1 rounded text-sm ${
+                className={`p-2 mt-2 inline-block rounded text-sm ${
                   statusColors[pkg.status]
                 }`}
               >
-                {pkg.status}
+                {PackageStatusLabel[pkg.status]}
               </span>
             </div>
 
@@ -70,7 +80,7 @@ export default function PackageList() {
                   {pkg.status === PackageStatus.Created && (
                     <>
                       <button
-                        className="px-2 py-1 bg-blue-500 text-white rounded"
+                        className="p-2 bg-blue-500 text-white rounded"
                         onClick={() =>
                           updateStatusMutation.mutate({
                             id: pkg.id,
@@ -82,7 +92,7 @@ export default function PackageList() {
                         Send
                       </button>
                       <button
-                        className="px-2 py-1 bg-red-500 text-white rounded"
+                        className="p-2 bg-red-500 text-white rounded"
                         onClick={() =>
                           updateStatusMutation.mutate({
                             id: pkg.id,
@@ -98,7 +108,7 @@ export default function PackageList() {
                   {pkg.status === PackageStatus.Sent && (
                     <>
                       <button
-                        className="px-2 py-1 bg-green-500 text-white rounded"
+                        className="p-2 bg-green-500 text-white rounded"
                         onClick={() =>
                           updateStatusMutation.mutate({
                             id: pkg.id,
@@ -110,7 +120,7 @@ export default function PackageList() {
                         Accept
                       </button>
                       <button
-                        className="px-2 py-1 bg-yellow-500 text-white rounded"
+                        className="p-2 bg-yellow-500 text-white rounded"
                         onClick={() =>
                           updateStatusMutation.mutate({
                             id: pkg.id,
@@ -122,7 +132,7 @@ export default function PackageList() {
                         Return
                       </button>
                       <button
-                        className="px-2 py-1 bg-red-500 text-white rounded"
+                        className="p-2 bg-red-500 text-white rounded"
                         onClick={() =>
                           updateStatusMutation.mutate({
                             id: pkg.id,
@@ -138,7 +148,7 @@ export default function PackageList() {
                   {pkg.status === PackageStatus.Returned && (
                     <>
                       <button
-                        className="px-2 py-1 bg-blue-500 text-white rounded"
+                        className="p-2 bg-blue-500 text-white rounded"
                         onClick={() =>
                           updateStatusMutation.mutate({
                             id: pkg.id,
@@ -150,7 +160,7 @@ export default function PackageList() {
                         Resend
                       </button>
                       <button
-                        className="px-2 py-1 bg-red-500 text-white rounded"
+                        className="p-2 bg-red-500 text-white rounded"
                         onClick={() =>
                           updateStatusMutation.mutate({
                             id: pkg.id,
@@ -169,6 +179,11 @@ export default function PackageList() {
           </div>
         ))}
       </div>
+      <CreatePackageDialog
+        isOpen={isCreateDialogOpen}
+        onClose={() => setIsCreateDialogOpen(false)}
+        onCreated={refetch} // Refresh the list after creation
+      />
     </div>
   );
 }
