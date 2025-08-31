@@ -187,7 +187,7 @@ export default function PackageDetailsDialog({
                         <button
                           key={status}
                           onClick={() => openConfirmation(status)}
-                          className={getStatusButtonStyle(status)}
+                          className={getStatusButtonStyle(status) + ` !text-white !bg-black`}
                           disabled={updateStatusMutation.isPending}
                         >
                           {statusIcons[status]} {PackageStatusLabel[status]}

@@ -274,24 +274,29 @@ export default function PackageList() {
                           <>
                             <button
                               className={buttonStyles.primary}
-                              onClick={() =>
-                                updateStatusMutation.mutate({
-                                  id: pkg.id,
-                                  newStatus: PackageStatus.Sent,
-                                })
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateStatusMutation.mutate(
+                                  { id: pkg.id, newStatus: PackageStatus.Sent },
+                                  { onSuccess: () => refetch() }
+                                );
+                              }}
                               disabled={updateStatusMutation.isPending}
                             >
                               📤 Send
                             </button>
                             <button
                               className={buttonStyles.danger}
-                              onClick={() =>
-                                updateStatusMutation.mutate({
-                                  id: pkg.id,
-                                  newStatus: PackageStatus.Canceled,
-                                })
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateStatusMutation.mutate(
+                                  {
+                                    id: pkg.id,
+                                    newStatus: PackageStatus.Canceled,
+                                  },
+                                  { onSuccess: () => refetch() }
+                                );
+                              }}
                               disabled={updateStatusMutation.isPending}
                             >
                               ❌ Cancel
@@ -302,36 +307,48 @@ export default function PackageList() {
                           <>
                             <button
                               className={buttonStyles.success}
-                              onClick={() =>
-                                updateStatusMutation.mutate({
-                                  id: pkg.id,
-                                  newStatus: PackageStatus.Accepted,
-                                })
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateStatusMutation.mutate(
+                                  {
+                                    id: pkg.id,
+                                    newStatus: PackageStatus.Accepted,
+                                  },
+                                  { onSuccess: () => refetch() }
+                                );
+                              }}
                               disabled={updateStatusMutation.isPending}
                             >
                               ✅ Accept
                             </button>
                             <button
                               className={buttonStyles.warning}
-                              onClick={() =>
-                                updateStatusMutation.mutate({
-                                  id: pkg.id,
-                                  newStatus: PackageStatus.Returned,
-                                })
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateStatusMutation.mutate(
+                                  {
+                                    id: pkg.id,
+                                    newStatus: PackageStatus.Returned,
+                                  },
+                                  { onSuccess: () => refetch() }
+                                );
+                              }}
                               disabled={updateStatusMutation.isPending}
                             >
                               ↩️ Return
                             </button>
                             <button
                               className={buttonStyles.danger}
-                              onClick={() =>
-                                updateStatusMutation.mutate({
-                                  id: pkg.id,
-                                  newStatus: PackageStatus.Canceled,
-                                })
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateStatusMutation.mutate(
+                                  {
+                                    id: pkg.id,
+                                    newStatus: PackageStatus.Canceled,
+                                  },
+                                  { onSuccess: () => refetch() }
+                                );
+                              }}
                               disabled={updateStatusMutation.isPending}
                             >
                               ❌ Cancel
@@ -342,24 +359,29 @@ export default function PackageList() {
                           <>
                             <button
                               className={buttonStyles.primary}
-                              onClick={() =>
-                                updateStatusMutation.mutate({
-                                  id: pkg.id,
-                                  newStatus: PackageStatus.Sent,
-                                })
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateStatusMutation.mutate(
+                                  { id: pkg.id, newStatus: PackageStatus.Sent },
+                                  { onSuccess: () => refetch() }
+                                );
+                              }}
                               disabled={updateStatusMutation.isPending}
                             >
                               📤 Resend
                             </button>
                             <button
                               className={buttonStyles.danger}
-                              onClick={() =>
-                                updateStatusMutation.mutate({
-                                  id: pkg.id,
-                                  newStatus: PackageStatus.Canceled,
-                                })
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateStatusMutation.mutate(
+                                  {
+                                    id: pkg.id,
+                                    newStatus: PackageStatus.Canceled,
+                                  },
+                                  { onSuccess: () => refetch() }
+                                );
+                              }}
                               disabled={updateStatusMutation.isPending}
                             >
                               ❌ Cancel
