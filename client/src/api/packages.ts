@@ -8,11 +8,20 @@ import {
 } from "../types/package";
 
 export async function listPackages(params?: {
-  status?: PackageStatus;
-  tracking?: string;
+  searchTerm?: string;
+  page?: number;
+  pageSize?: number;
 }) {
   try {
-    const res = await api.get<PackageListItem[]>("/package", { params });
+    const res = await api.get<{
+      packages: PackageListItem[];
+      totalCount: number;
+      totalPages: number;
+      currentPage: number;
+      pageSize: number;
+      hasNext: boolean;
+      hasPrevious: boolean;
+    }>("/package", { params });
     return res.data ?? [];
   } catch (error) {
     console.error("API error (listPackages):", error);
@@ -31,10 +40,19 @@ export async function getPackage(id: string) {
 }
 
 export async function createPackage(payload: CreatePackageInput) {
-  try {
-    const res = await api.post<PackageDetails>("/package", payload);
-    return res.data;
-  } catch (error) {
+    try {
+  const generateTrackingPreview = (): string => {
+    const now = new Date();
+    const day = now.getDate().toString().padStart(2, "0");
+    const random = Math.floor(Math.random() * 1000)
+      .toString()
+      .padStart(3, "0");
+    return `TRK${day}${random}`;
+  };
+  payload.trackingNumber = generateTrackingPreview();
+  const res = await api.post<PackageDetails>("/package", payload);
+  return res.data;
+    } catch (error) {
     console.error("Failed to create package:", error);
     throw new Error("Failed to create package. Please check your input.");
   }

@@ -33,7 +33,7 @@ namespace Server.Data
             // StatusHistory entity config
             modelBuilder.Entity<StatusHistory>(entity =>
             {
-                entity.HasKey(h => h.Id);
+                entity.Property(h => h.Id).ValueGeneratedOnAdd();
                 entity.Property(h => h.Status).IsRequired();
                 entity.Property(h => h.ChangedAt).HasDefaultValue(DateTime.UtcNow);
                 entity.HasOne(h => h.Package)

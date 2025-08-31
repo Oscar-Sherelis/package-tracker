@@ -6,6 +6,7 @@ import {
   PackageStatusLabel,
 } from "../types/package";
 import CreatePackageDialog from "../components/packages/CreatePackageDialog";
+import PackageDetailsDialog from "../components/packages/PackageDetailsDialog";
 
 const statusColors: Record<PackageStatus, string> = {
   [PackageStatus.Created]: "bg-blue-100 text-blue-800 border border-blue-300",
@@ -28,22 +29,25 @@ const statusIcons: Record<PackageStatus, string> = {
 
 const buttonStyles = {
   primary:
-    "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium",
+    "!text-white !bg-black px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium",
   success:
-    "px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium",
+    "!text-white !bg-black px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium",
   warning:
-    "px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors duration-200 font-medium",
+    "!text-white !bg-black px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors duration-200 font-medium",
   danger:
-    "px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium",
+    "!text-white !bg-black px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium",
   secondary:
-    "px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200 font-medium",
+    "!text-white !bg-black px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200 font-medium",
 };
 
 export default function PackageList() {
-  const { data: packages, isLoading, error, refetch } = usePackages();
+  const { data: packagesData, isLoading, error, refetch } = usePackages();
   const updateStatusMutation = useUpdateStatus();
   const [filter, setFilter] = useState<string>("");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [selectedPackageId, setSelectedPackageId] = useState<string | null>(
+    null
+  );
 
   if (isLoading)
     return (
@@ -76,6 +80,9 @@ export default function PackageList() {
       </div>
     );
 
+  const packages = packagesData?.packages || [];
+  const totalCount = packagesData?.totalCount || 0;
+
   const filtered =
     packages?.filter(
       (pkg: PackageListItem) =>
@@ -84,6 +91,10 @@ export default function PackageList() {
           .toLowerCase()
           .includes(filter.toLowerCase())
     ) ?? [];
+
+  const handlePackageClick = (packageId: string) => {
+    setSelectedPackageId(packageId);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -152,7 +163,7 @@ export default function PackageList() {
                   id="filter"
                   type="text"
                   placeholder="Search by tracking number or status..."
-                  className="pl-10 pr-4 py-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="pl-10 text-black pr-4 py-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   value={filter}
                   onChange={(e) => setFilter(e.target.value)}
                 />
@@ -161,8 +172,7 @@ export default function PackageList() {
 
             <div className="flex gap-2">
               <span className="text-sm text-gray-600 self-center">
-                {filtered.length} package{filtered.length !== 1 ? "s" : ""}{" "}
-                found
+                Total packages: {totalCount}
               </span>
             </div>
           </div>
@@ -194,7 +204,8 @@ export default function PackageList() {
             {filtered.map((pkg) => (
               <div
                 key={pkg.id}
-                className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 p-6 border border-gray-100"
+                className="bg-white rounded-xl shadow-sm hover:shadow-lg hover:scale-[1.02] transition-transform duration-200 cursor-pointer transition-shadow duration-200 p-6 border border-gray-100"
+                onClick={() => handlePackageClick(pkg.id)}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>
@@ -374,6 +385,12 @@ export default function PackageList() {
           isOpen={isCreateDialogOpen}
           onClose={() => setIsCreateDialogOpen(false)}
           onCreated={refetch}
+        />
+
+        <PackageDetailsDialog
+          isOpen={!!selectedPackageId}
+          onClose={() => setSelectedPackageId(null)}
+          packageId={selectedPackageId}
         />
       </div>
     </div>

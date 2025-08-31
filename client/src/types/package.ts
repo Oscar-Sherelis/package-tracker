@@ -14,13 +14,13 @@ export const PackageStatusLabel: Record<PackageStatus, string> = {
   [PackageStatus.Canceled]: "Canceled",
 };
 
-export type StatusHistory = {
+export interface StatusHistory {
   id: string;
   packageId: string;
   status: PackageStatus;
   changedAt: string;
   description?: string;
-};
+}
 
 export interface PackageListItem {
   id: string;
@@ -36,13 +36,13 @@ export interface StatusItem {
   timestamp: string;
 }
 
-export interface PackageDetails extends Omit<PackageListItem, "status"> {
+export interface PackageDetails extends PackageListItem {
   status: PackageStatus;
   senderAddress: string;
   senderPhone: string;
   recipientAddress: string;
   recipientPhone: string;
-  statusHistory: StatusItem[];
+  statusHistory: StatusHistory[];
   createdAt: string;
   allowedTransitions: PackageStatus[];
 }
@@ -54,4 +54,5 @@ export interface CreatePackageInput {
   recipientName: string;
   recipientAddress: string;
   recipientPhone: string;
+  trackingNumber: string;
 }

@@ -15,14 +15,43 @@ namespace Server.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<PackageDto>> GetAllAsync()
+        public async Task<IEnumerable<PackageDto>> GetAllAsync(string? searchTerm, int page, int pageSize)
         {
-            var packages = await _context.Packages
+            var packages = _context.Packages
                 .Include(p => p.StatusHistory)
-                .AsNoTracking()
-                .ToListAsync();
+                .AsQueryable();
 
-            return packages.Select(MapToDto).ToList();
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.ToLower();
+                packages = packages.Where(p =>
+                    p.TrackingNumber.ToLower().Contains(searchTerm) ||
+                    p.Status.ToString().ToLower().Contains(searchTerm)
+                );
+            }
+
+            return await packages
+                .OrderByDescending(p => p.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(p => MapToDto(p))
+                .ToListAsync();
+        }
+
+        public async Task<int> GetCountAsync(string? searchTerm)
+        {
+            var query = _context.Packages.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.ToLower();
+                query = query.Where(p =>
+                    p.TrackingNumber.ToLower().Contains(searchTerm) ||
+                    p.Status.ToString().ToLower().Contains(searchTerm)
+                );
+            }
+
+            return await query.CountAsync();
         }
 
         public async Task<PackageDto?> GetByIdAsync(Guid id)
@@ -46,6 +75,7 @@ namespace Server.Services
             // Add initial status history
             package.StatusHistory.Add(new StatusHistory
             {
+                Id = Guid.NewGuid(),
                 PackageId = package.Id,
                 Status = PackageStatus.Created,
                 ChangedAt = DateTime.UtcNow,
@@ -76,7 +106,6 @@ namespace Server.Services
             {
                 PackageId = package.Id,
                 Status = newStatus,
-                ChangedAt = DateTime.UtcNow,
                 Description = $"Status changed to {newStatus}"
             });
 
