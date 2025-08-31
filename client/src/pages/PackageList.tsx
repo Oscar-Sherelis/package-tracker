@@ -276,30 +276,45 @@ export default function PackageList() {
                               className={buttonStyles.primary}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                updateStatusMutation.mutate(
-                                  { id: pkg.id, newStatus: PackageStatus.Sent },
-                                  { onSuccess: () => refetch() }
-                                );
+                                if (
+                                  window.confirm(
+                                    "Do you really want to accept change?"
+                                  )
+                                ) {
+                                  updateStatusMutation.mutate(
+                                    {
+                                      id: pkg.id,
+                                      newStatus: PackageStatus.Sent,
+                                    },
+                                    { onSuccess: () => refetch() }
+                                  );
+                                }
                               }}
                               disabled={updateStatusMutation.isPending}
                             >
-                              📤 Send
+                              📤 Sent
                             </button>
                             <button
                               className={buttonStyles.danger}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                updateStatusMutation.mutate(
-                                  {
-                                    id: pkg.id,
-                                    newStatus: PackageStatus.Canceled,
-                                  },
-                                  { onSuccess: () => refetch() }
-                                );
+                                if (
+                                  window.confirm(
+                                    "Do you really want to accept change?"
+                                  )
+                                ) {
+                                  updateStatusMutation.mutate(
+                                    {
+                                      id: pkg.id,
+                                      newStatus: PackageStatus.Canceled,
+                                    },
+                                    { onSuccess: () => refetch() }
+                                  );
+                                }
                               }}
                               disabled={updateStatusMutation.isPending}
                             >
-                              ❌ Cancel
+                              ❌ Canceled
                             </button>
                           </>
                         )}
@@ -309,49 +324,67 @@ export default function PackageList() {
                               className={buttonStyles.success}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                updateStatusMutation.mutate(
-                                  {
-                                    id: pkg.id,
-                                    newStatus: PackageStatus.Accepted,
-                                  },
-                                  { onSuccess: () => refetch() }
-                                );
+                                if (
+                                  window.confirm(
+                                    "Do you really want to accept change?"
+                                  )
+                                ) {
+                                  updateStatusMutation.mutate(
+                                    {
+                                      id: pkg.id,
+                                      newStatus: PackageStatus.Accepted,
+                                    },
+                                    { onSuccess: () => refetch() }
+                                  );
+                                }
                               }}
                               disabled={updateStatusMutation.isPending}
                             >
-                              ✅ Accept
+                              ✅ Accepted
                             </button>
                             <button
                               className={buttonStyles.warning}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                updateStatusMutation.mutate(
-                                  {
-                                    id: pkg.id,
-                                    newStatus: PackageStatus.Returned,
-                                  },
-                                  { onSuccess: () => refetch() }
-                                );
+                                if (
+                                  window.confirm(
+                                    "Do you really want to accept change?"
+                                  )
+                                ) {
+                                  updateStatusMutation.mutate(
+                                    {
+                                      id: pkg.id,
+                                      newStatus: PackageStatus.Returned,
+                                    },
+                                    { onSuccess: () => refetch() }
+                                  );
+                                }
                               }}
                               disabled={updateStatusMutation.isPending}
                             >
-                              ↩️ Return
+                              ↩️ Returned
                             </button>
                             <button
                               className={buttonStyles.danger}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                updateStatusMutation.mutate(
-                                  {
-                                    id: pkg.id,
-                                    newStatus: PackageStatus.Canceled,
-                                  },
-                                  { onSuccess: () => refetch() }
-                                );
+                                if (
+                                  window.confirm(
+                                    "Do you really want to accept change?"
+                                  )
+                                ) {
+                                  updateStatusMutation.mutate(
+                                    {
+                                      id: pkg.id,
+                                      newStatus: PackageStatus.Canceled,
+                                    },
+                                    { onSuccess: () => refetch() }
+                                  );
+                                }
                               }}
                               disabled={updateStatusMutation.isPending}
                             >
-                              ❌ Cancel
+                              ❌ Canceled
                             </button>
                           </>
                         )}
@@ -361,30 +394,45 @@ export default function PackageList() {
                               className={buttonStyles.primary}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                updateStatusMutation.mutate(
-                                  { id: pkg.id, newStatus: PackageStatus.Sent },
-                                  { onSuccess: () => refetch() }
-                                );
+                                if (
+                                  window.confirm(
+                                    "Do you really want to accept change?"
+                                  )
+                                ) {
+                                  updateStatusMutation.mutate(
+                                    {
+                                      id: pkg.id,
+                                      newStatus: PackageStatus.Sent,
+                                    },
+                                    { onSuccess: () => refetch() }
+                                  );
+                                }
                               }}
                               disabled={updateStatusMutation.isPending}
                             >
-                              📤 Resend
+                              📤 Sent
                             </button>
                             <button
                               className={buttonStyles.danger}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                updateStatusMutation.mutate(
-                                  {
-                                    id: pkg.id,
-                                    newStatus: PackageStatus.Canceled,
-                                  },
-                                  { onSuccess: () => refetch() }
-                                );
+                                if (
+                                  window.confirm(
+                                    "Do you really want to accept change?"
+                                  )
+                                ) {
+                                  updateStatusMutation.mutate(
+                                    {
+                                      id: pkg.id,
+                                      newStatus: PackageStatus.Canceled,
+                                    },
+                                    { onSuccess: () => refetch() }
+                                  );
+                                }
                               }}
                               disabled={updateStatusMutation.isPending}
                             >
-                              ❌ Cancel
+                              ❌ Canceled
                             </button>
                           </>
                         )}
